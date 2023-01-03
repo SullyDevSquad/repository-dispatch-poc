@@ -40,6 +40,6 @@ jobs:
         with:
           event-type: kickoff-qa-deploy
           token: ${{ secrets.PAT }}
-          client-payload: '{"test_pass_percent": "${{ needs.runTests.outputs.test_pass_percent }}", "security_checks_passed": "${{ needs.securityChecks.outputs.security_checks_passed }}"}'
+          client-payload: '{"test_pass_percent": "${{ needs.runTests.outputs.test_pass_percent }}", "security_checks_passed": "${{ needs.securityCheck.outputs.security_checks_passed }}"}'
           
           
