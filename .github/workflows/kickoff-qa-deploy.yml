@@ -13,7 +13,6 @@ jobs:
   parseResultsIntoGitHubSummary:
     runs-on: ubuntu-latest
     steps:
-
       - name: Run a multi-line script
         run: |
           # get test pass percent and security results
@@ -24,10 +23,12 @@ jobs:
           summary_table="| Test Pass Percent | Security Checks Passed |\n| --- | --- |\n| $test_pass_percent | $security_checks_passed |"
 
           # append to github step summary
-          echo "## Gating results $summary_table" >> $GITHUB_STEP_SUMMARY
+          echo "## Gating result" >> $GITHUB_STEP_SUMMARY
+          echo "$summary_table" >> $GITHUB_STEP_SUMMARY
 
   deployQA:
     runs-on: ubuntu-latest
+    environment: QA
     needs: [parseResultsIntoGitHubSummary]
     steps:
       - name: Deploy to QA
