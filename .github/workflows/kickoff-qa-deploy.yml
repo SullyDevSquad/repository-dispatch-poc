@@ -24,7 +24,8 @@ jobs:
 
           # append to github step summary
           echo "## Gating result" >> $GITHUB_STEP_SUMMARY
-          echo "$summary_table" >> $GITHUB_STEP_SUMMARY
+          echo "###Test Pass Percent: $test_pass_percent" >> $GITHUB_STEP_SUMMARY
+          echo "###Security Checks Passed: $security_checks_passed" >> $GITHUB_STEP_SUMMARY
 
   deployQA:
     runs-on: ubuntu-latest
