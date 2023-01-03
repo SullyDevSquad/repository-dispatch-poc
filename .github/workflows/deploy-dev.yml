@@ -15,4 +15,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           event-type: kick-gates
+          token: ${{ secrets.PAT }} 
           
