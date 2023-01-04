@@ -26,9 +26,12 @@ jobs:
           echo "## Gating result" >> $GITHUB_STEP_SUMMARY
           echo "### Test Pass Percent: $test_pass_percent" >> $GITHUB_STEP_SUMMARY
           echo "### Security Checks Passed: $security_checks_passed" >> $GITHUB_STEP_SUMMARY
+          
+          exit 1
 
   deployQA:
     runs-on: ubuntu-latest
+    if: always()
     environment: QA
     needs: [parseResultsIntoGitHubSummary]
     steps:
