@@ -41,5 +41,32 @@ jobs:
           event-type: kickoff-qa-deploy
           token: ${{ secrets.PAT }}
           client-payload: '{"test_pass_percent": "${{ needs.runTests.outputs.test_pass_percent }}", "security_checks_passed": "${{ needs.securityCheck.outputs.security_checks_passed }}"}'
+
+ createIssue:
+    runs-on: ubuntu-latest
+    needs: [runTests, securityCheck]
+    steps:
+      - name: Create issue via the API
+        shell: python
+        run: |
+            # make api call to create issue
+            issueBody = """
+              | Gate | Result |
+              | ---- | ------ |
+              | Tests | ${{ needs.runTests.outputs.test_pass_percent }}% |
+              | Security | Repository Compliant?: ${{ needs.securityCheck.outputs.security_checks_passed }} |
+            """
+
+            # create issue
+            import requests
+            import json
+
+            # get current day
+            import datetime
+            now = datetime.datetime.now()
+
+            # make request
+            url = "https://api.github.com/repos/${{ env.repository }}/issues"
+            requests.post(url, data=json.dumps({"title": "Gate Results for $now", "body": issueBody}), headers={"Authorization ": "token ${{ secrets.GITHUB_TOKEN }}", "Accept": "application/vnd.github.v3+json" })
           
           
