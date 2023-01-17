@@ -49,24 +49,35 @@ jobs:
       - name: Create issue via the API
         shell: python
         run: |
-            # make api call to create issue
-            issueBody = """
-              | Gate | Result |
-              | ---- | ------ |
-              | Tests | ${{ needs.runTests.outputs.test_pass_percent }}% |
-              | Security | Repository Compliant?: ${{ needs.securityCheck.outputs.security_checks_passed }} |
-            """
+          import requests
+          import json
 
-            # create issue
-            import requests
-            import json
+          # get current day
+          import datetime
 
-            # get current day
-            import datetime
-            now = datetime.datetime.now()
+          # make api call to create issue
+          issueBody = """
+          # Gating Results
 
-            # make request
-            url = "https://api.github.com/repos/${{ env.repository }}/issues"
-            requests.post(url, data=json.dumps({"title": "Gate Results for $now", "body": issueBody}), headers={"Authorization ": "token ${{ secrets.GITHUB_TOKEN }}", "Accept": "application/vnd.github.v3+json" })
-          
+          | Gate | Result |
+          | ---- | ------ |
+          | Tests | ${{ needs.runTests.outputs.test_pass_percent }}% |
+          | Security | Repository Compliant?: ${{ needs.securityCheck.outputs.security_checks_passed }} |
+          """
+
+          # create issue
+          now = datetime.datetime.now()
+
+          # create issue via github api
+          url = "https://api.github.com/repos/SullyDevSquad/repository-dispatch-poc/issues"
+          headers = {
+              "Authorization": "token ${{ secrets.GITHUB_TOKEN }}" 
+          }
+          data = {
+              "title": f"Gating Results {now.strftime('%Y-%m-%d')}",
+              "body": issueBody
+          }
+
+          response = requests.post(url, headers=headers, data=json.dumps(data))
+          print(response.status_code)
           
