@@ -17,6 +17,7 @@ jobs:
         id: tag
         run: |
           tagName=$(gh api repos/SullyDevSquad/repository-dispatch-poc/releases/latest | jq .tag_name)
+          echo "$tagName is this"
           echo "tag=$tagName" >> GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
