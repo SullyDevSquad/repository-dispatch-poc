@@ -16,9 +16,9 @@ jobs:
       - name: Get latest release tag
         id: tag_name
         run: |
-          tagName=$(gh api repos/SullyDevSquad/repository-dispatch-poc/releases/latest | jq .tag_name)
+          tagname=$(gh api repos/SullyDevSquad/repository-dispatch-poc/releases/latest | jq .tag_name)
           echo "$tagName is this"
-          echo "tag=$tagName" >> GITHUB_OUTPUT
+          echo "tagname=$tagname" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Make repo dispatch call
@@ -27,6 +27,6 @@ jobs:
         with:
           event-type: kick-gates
           token: ${{ secrets.PAT }}
-          client-payload: '{"version": "${{ steps.tag_name.outputs.tag }}" }'
+          client-payload: '{"version": "${{ steps.tag_name.outputs.tagname }}"}'
           
           
