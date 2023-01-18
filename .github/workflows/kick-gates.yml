@@ -74,7 +74,7 @@ jobs:
               "Authorization": "token ${{ secrets.GITHUB_TOKEN }}" 
           }
           data = {
-              "title": f"Gating Results {now.strftime('%Y-%m-%d')}",
+              "title": f"Gating Results for version ${{ github.event.client_payload.version }} {now.strftime('%Y-%m-%d')}",
               "body": issueBody
           }
 
