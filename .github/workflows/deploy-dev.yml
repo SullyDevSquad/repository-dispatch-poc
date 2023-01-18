@@ -27,6 +27,6 @@ jobs:
         with:
           event-type: kick-gates
           token: ${{ secrets.PAT }}
-          client-payload: '{"version": "${{ steps.tag_name.outputs.tagname }}"}'
+          client-payload: '{"version": ${{ steps.tag_name.outputs.tagname }} }'
           
           
