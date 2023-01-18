@@ -14,7 +14,7 @@ jobs:
         run: |
           echo "Dev environment deployed... running gates"
       - name: Get latest release tag
-        id: tag
+        id: tag_name
         run: |
           tagName=$(gh api repos/SullyDevSquad/repository-dispatch-poc/releases/latest | jq .tag_name)
           echo "$tagName is this"
@@ -27,6 +27,6 @@ jobs:
         with:
           event-type: kick-gates
           token: ${{ secrets.PAT }}
-          client-payload: '{"version": "${{ steps.tag.outputs.tag }}"}'
+          client-payload: '{"version": "${{ steps.tag_name.outputs.tag }}" }'
           
           
