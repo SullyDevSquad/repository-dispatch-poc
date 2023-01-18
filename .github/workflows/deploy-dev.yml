@@ -10,10 +10,19 @@ jobs:
       - name: Deploy dev
         run: |
           echo "Dev environment deployed... running gates"
+      - name: Get latest release tag
+        id: tag
+        run: |
+          tagName=$(gh api repos/SullyDevSquad/repository-dispatch-poc/releases/latest | jq .tag_name)
+          echo "tag=$tagName" >> GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Make repo dispatch call
         id: repo-dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
           event-type: kick-gates
-          token: ${{ secrets.PAT }} 
+          token: ${{ secrets.PAT }}
+          client-payload: '{"version": "${{ steps.tag.outputs.tagName }}"}'
+          
           
