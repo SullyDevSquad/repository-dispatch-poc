@@ -13,7 +13,7 @@ jobs:
       - name: Execute tests and get pass percentage
         id: tests
         run: |
-          echo "Running tests..."
+          echo "Running tests for version ${{ github.event.client_payload.version }}..."
           echo "Tests passed! Grabbing test pass percentage"
           echo test, and deploy your project.
           # set output
@@ -23,10 +23,10 @@ jobs:
     outputs:
       security_checks_passed: ${{ steps.security.outputs.security_checks_passed }}
     steps:
-      - name: Execute security checks
+      - name: Execute security checks 
         id: security
         run: |
-          echo "Running security checks..."
+          echo "Running security checks for version ${{ github.event.client_payload.version }} ..."
           echo "Security checks passed!"
           echo "security_checks_passed=true" >> $GITHUB_OUTPUT
           
